@@ -31,4 +31,30 @@
  */
 export function sabziMandiBill(shoppingList, priceList) {
   // Your code here
+  const result = {
+    items: [],
+    totalBill: 0
+  };
+
+  if (!Array.isArray(shoppingList) || typeof priceList !== 'object' || priceList === null) {
+    return result;
+  }
+
+  for (const item of shoppingList) {
+    const { name, qty } = item;
+
+    // Validate item exists in priceList and qty is positive
+    if (!priceList.hasOwnProperty(name) || typeof qty !== 'number' || qty <= 0) continue;
+
+    const rate = priceList[name];
+
+    // Skip if rate > 80
+    if (rate > 80) continue;
+
+    const cost = rate * qty;
+    result.items.push({ name, qty, cost });
+    result.totalBill += cost;
+  }
+
+  return result;
 }
